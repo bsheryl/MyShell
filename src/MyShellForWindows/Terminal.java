@@ -128,10 +128,6 @@ public class Terminal {
     public void commandDate() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDateTime localDateTime = LocalDateTime.now();
-        Scanner scanner = new Scanner(System.in);
-        Date date = new Date();
         System.out.println("Текущая дата: " + dateFormatter.format(localDateTime));
-        System.out.print("Введите новую дату (дд-мм-гг): ");
-        String line = scanner.nextLine();
     }
 }
