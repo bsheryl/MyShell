@@ -22,7 +22,16 @@ public class Terminal {
         return currentDirectory;
     }
 
-    public void commandDir(String[] commands) {
+    public void commandDir(String[] commands) throws IOException {
+        if (commands.length == 2 && commands[1].equals("/?")) {
+            FileInputStream fileInputStream = new FileInputStream("dir.txt");
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+            return;
+        }
         List<Map<String, String>> mapList = new ArrayList<>();
         File dir;
         int d = 0;
@@ -79,6 +88,15 @@ public class Terminal {
     }
 
     public void commandSort(String[] commands) throws IOException {
+        if (commands.length == 2 && commands[1].equals("/?")) {
+            FileInputStream fileInputStream = new FileInputStream("sort.txt");
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+            return;
+        }
         List<String> list = new ArrayList<>();
         if (commands.length == 1 || (commands.length == 2 && commands[1].equalsIgnoreCase("/r"))) {
             list = readStandartInput();
@@ -125,9 +143,18 @@ public class Terminal {
         catalog.mkdir();
     }
 
-    public void commandDate() {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDateTime localDateTime = LocalDateTime.now();
-        System.out.println("Текущая дата: " + dateFormatter.format(localDateTime));
+    public void commandDate(String[] commands) throws IOException {
+        if (commands.length == 1) {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            LocalDateTime localDateTime = LocalDateTime.now();
+            System.out.println("Текущая дата: " + dateFormatter.format(localDateTime));
+        } else if (commands[1].equals("/?")) {
+            FileInputStream fileInputStream = new FileInputStream("date.txt");
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+        }
     }
 }

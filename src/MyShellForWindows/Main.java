@@ -19,7 +19,7 @@ public class Main {
             } else if (commands[0].equalsIgnoreCase("mkdir")) {
                 terminal.commandMkdir(commands);
             } else if (commands[0].equalsIgnoreCase("date")) {
-                terminal.commandDate();
+                terminal.commandDate(commands);
             }
         }
     }
