@@ -24,12 +24,7 @@ public class Terminal {
 
     public void commandDir(String[] commands) throws IOException {
         if (commands.length == 2 && commands[1].equals("/?")) {
-            FileInputStream fileInputStream = new FileInputStream("dir.txt");
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-            }
+            outputFile("dir.txt");
             return;
         }
         List<Map<String, String>> mapList = new ArrayList<>();
@@ -45,7 +40,7 @@ public class Terminal {
         }
         if (commands.length > 1 && commands[1].contains(":\\")) {
             if (Files.notExists(Path.of(commands[1]), new LinkOption[]{LinkOption.NOFOLLOW_LINKS})) {
-                System.out.println("Р¤Р°Р№Р» РЅРµ РЅР°Р№РґРµРЅ");
+                System.out.println("Файл не найден");
                 return;
             }
             dir = new File(commands[1]);
@@ -82,19 +77,14 @@ public class Terminal {
                 System.out.printf("%s\t%s\t%s\t%12s\t%s\n",
                         map.get("date"), map.get("time"), map.get("dir"), map.get("size"), map.get("name"));
             }
-            System.out.println("\t\t\t" + countFiles + " С„Р°Р№Р»РѕРІ\t" + totalSize + " Р±Р°Р№С‚");
-            System.out.println("\t\t\t" + countDir + " РїР°РїРѕРє");
+            System.out.println("\t\t\t" + countFiles + " файлов\t" + totalSize + " байт");
+            System.out.println("\t\t\t" + countDir + " папок");
         }
     }
 
     public void commandSort(String[] commands) throws IOException {
         if (commands.length == 2 && commands[1].equals("/?")) {
-            FileInputStream fileInputStream = new FileInputStream("sort.txt");
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-            }
+            outputFile("sort.txt");
             return;
         }
         List<String> list = new ArrayList<>();
@@ -138,7 +128,11 @@ public class Terminal {
         return list;
     }
 
-    public void commandMkdir(String[] commands) {
+    public void commandMkdir(String[] commands) throws IOException {
+        if (commands.length == 2 & commands[1].equals("/?")) {
+            outputFile("mkdir.txt");
+            return;
+        }
         File catalog = new File(commands[1]);
         catalog.mkdir();
     }
@@ -147,14 +141,18 @@ public class Terminal {
         if (commands.length == 1) {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             LocalDateTime localDateTime = LocalDateTime.now();
-            System.out.println("РўРµРєСѓС‰Р°СЏ РґР°С‚Р°: " + dateFormatter.format(localDateTime));
+            System.out.println("Текущая дата: " + dateFormatter.format(localDateTime));
         } else if (commands[1].equals("/?")) {
-            FileInputStream fileInputStream = new FileInputStream("date.txt");
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-            }
+            outputFile("date.txt");
+        }
+    }
+
+    private void outputFile(String fileName) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(fileName);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+        String line = null;
+        while ((line = bufferedReader.readLine()) != null) {
+            System.out.println(line);
         }
     }
 }
